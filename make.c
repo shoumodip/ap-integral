@@ -11,8 +11,9 @@ int main(int argc, char **argv)
     if (strcmp(argv[1], "build") == 0) {
         make_cc("scale", "scale.c", CFLAGS);
     } else if (strcmp(argv[1], "run") == 0) {
+        make_assert(argc > 2, "no output file path provided");
         make_cc("scale", "scale.c", CFLAGS);
-        make_cmd("./scale");
+        make_cmd("./scale", argv[2]);
     } else {
         make_error("unknown subcommand `%s`", argv[1]);
     }
