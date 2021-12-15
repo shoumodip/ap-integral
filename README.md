@@ -2,9 +2,11 @@
 Track the error between integration and AP accumulation.
 
 ## Quick Start
+This project uses [make.h](https://github.com/shoumodip/make.h)
+
 ```console
-$ make
-$ ./scale > output.log
+$ cc -o make make.c
+$ ./make run
 ```
 
 ## Usage

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define OUTPUT_PATH "output.log"
+
 double ap_sum(float a, float d, float n)
 {
     return (n / 2.0) * (2.0 * a + (n - 1.0) * d);
@@ -12,11 +14,11 @@ double ap_integral(float a, float d, float n)
     return (a * n) + ((n - 1.0) * (n - 1.0) * d * 0.5);
 }
 
-void ap_scale(float a, float d, float n)
+void ap_scale(FILE *f, float a, float d, float n)
 {
     const double sum = ap_sum(a, d, n);
     const double integral = ap_integral(a, d, n);
-    printf("%g (%g / %g)\n", sum / integral, sum, integral);
+    fprintf(f, "%g (%g / %g)\n", sum / integral, sum, integral);
 }
 
 int main(int argc, char **argv)
@@ -35,16 +37,19 @@ int main(int argc, char **argv)
     }
 
     const size_t padding = snprintf(NULL, 0, "%zu", count);
+
+    FILE *f = fopen(OUTPUT_PATH, "w");
     for (size_t a = 1; a <= count; ++a) {
         for (size_t d = 1; d <= count; ++d) {
             for (size_t n = 1; n <= count; ++n) {
-                printf("scale(a=%*zu, d=%*zu, n=%*zu) = ",
+                fprintf(f, "scale(a=%*zu, d=%*zu, n=%*zu) = ",
                         (int) padding, a,
                         (int) padding, d,
                         (int) padding, n);
-                ap_scale(a, d, n);
+                ap_scale(f, a, d, n);
             }
         }
     }
+    fclose(f);
     return 0;
 }
